@@ -43,5 +43,20 @@ function barChart() {
         text: otu_labels
     }]
 
-    Plotly.newPlot("bar", data)
-}
+    Plotly.newPlot("bar", data);
+};
+
+function bubbleChart() {
+    var data = [{
+        x: otu_ids,
+        y: sample_values,
+        text: otu_labels,
+        mode: "markers",
+        marker: {
+            color: otu_ids,
+            size: sample_values
+        }
+    }];
+
+    Plotly.newPlot("bubble", data);
+};
