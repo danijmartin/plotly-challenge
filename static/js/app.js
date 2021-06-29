@@ -105,8 +105,12 @@ function init() {
               }
             }
           ];
+
+        var layout = {
+            title: "Belly Button Washing Frequency", font: {size: 18}
+        }
           
-          Plotly.newPlot("gauge", data);
+          Plotly.newPlot("gauge", data, layout);
     });
 };
 
