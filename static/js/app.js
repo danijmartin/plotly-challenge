@@ -1,62 +1,78 @@
-// Read in data file
-d3.json("/data/samples.json").then(function(data) {
-        
-    // Grab values for dropdown
-    var ids = data.names;
-
-    // Populate drop down
-    var counter = 0;
-    ids.forEach(function(id) {
-    d3.select("#selDataset").append("option").attr("value", `${counter}`).text(id);
-    counter +=1;
-    })
-});
-
-
-
-d3.select("#selDataset").on("change", updatePlots);
-
-function updatePlots() {
-    var selection = d3.select("selDataset").node().value;
-    console.log(selection);
-
+function init() {
+    // Read in data file
     d3.json("/data/samples.json").then(function(data) {
-        var sample_id = data.samples.id;
-        var sample_values = data.samples.sample_values;
-        var otu_ids = data.samples.otu_ids;
-        var otu_labels = data.samples.otu_labels;
-        var metadata = data.metadata;
+        // Grab values for dropdown and default charts
+        var ids = data.names;
+        var sample = data.samples[0];
+        var sample_values = sample.sample_values;
+        var otu_ids = sample.otu_ids;
+        var otu_labels = sample.otu_labels;
+        var metadata = data.metadata[0];
+        // console.log(otu_ids); - code verification
 
-    barChart();
-    bubbleChart();
-    demographics();
-    guageChart();
+        // Populate drop down
+        var counter = 0;
+        ids.forEach(function(id) {
+        d3.select("#selDataset").append("option").attr("value", `${counter}`).text(id);
+        counter +=1;
+        })
+
+        // Bar graph
+        // Limit data to top 10 and reverse order
+        let topS_values = sample_values.slice(0,10).reverse();
+        let topOtu_ids = otu_ids.slice(0,10).reverse();
+        let topOtu_labels = otu_labels.slice(0,10).reverse();
+        // console.log(topOtu_labels) - code verification
+
+        // Add OTU to OTU ids
+        let stringOtu_ids = []
+        topOtu_ids.forEach(function(num) {
+            stringOtu_ids.push(`OTU ${num}`);
+        });
+        // console.log(stringOtu_ids); code verification
+
+        // Build bar graph
+        var data = [{
+        type: "bar",
+        orientation: "h",
+        x: topS_values,
+        y: stringOtu_ids,
+        text: topOtu_labels
+        }]
+
+        Plotly.newPlot("bar", data);
+
+        //Bubble Chart
+        var data = [{
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: "markers",
+            marker: {
+                color: otu_ids,
+                size: sample_values
+            }
+        }];
+
+        var layout = {
+            xaxis: {
+                title: "OTU id"
+            }
+        }
+    
+        Plotly.newPlot("bubble", data, layout);
+
+        // Demographics
+        // console.log(metadata) - code verification
+        Object.entries(metadata).forEach(([key,value]) =>
+            d3.select("#sample-metadata").append("p").attr("style", "font-weight: bold").text(`${key}: ${value}`));
     });
 };
 
-function barChart() {
-    var data = [{
-        type: "bar",
-        orientation: "h",
-        x: sample_values,
-        y: otu_ids,
-        text: otu_labels
-    }]
 
-    Plotly.newPlot("bar", data);
+//Build event listener
+function optionChanged() {
+    
 };
 
-function bubbleChart() {
-    var data = [{
-        x: otu_ids,
-        y: sample_values,
-        text: otu_labels,
-        mode: "markers",
-        marker: {
-            color: otu_ids,
-            size: sample_values
-        }
-    }];
-
-    Plotly.newPlot("bubble", data);
-};
+init();
