@@ -42,7 +42,12 @@ function init() {
         marker: {color: ["#EAF2F8", "#D4E6F1", "#A9CCE3", "#7FB3D5", "#5499C7", "#2980B9", "#2471A3", "#1F618D", "#1A5276", "#154360"]}
         }]
 
-        Plotly.newPlot("bar", data);
+        var layout = {
+            title: "Top 10 Bacteria Cultures Found",
+            xaxis: {title: "Total in Sample"}
+        }
+
+        Plotly.newPlot("bar", data, layout);
 
         //Bubble Chart
         var data = [{
