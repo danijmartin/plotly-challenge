@@ -43,7 +43,7 @@ function init() {
         }]
 
         var layout = {
-            title: "Top 10 Bacteria Cultures Found",
+            title: {text: "Top 10 Bacteria Cultures Found", font: {size: 20}},
             xaxis: {title: "Total in Sample"}
         }
 
@@ -62,9 +62,8 @@ function init() {
         }];
 
         var layout = {
-            xaxis: {
-                title: "OTU id"
-            }
+            title: {text: "Bacteria Cultures per sample", font: {size: 24}},
+            xaxis: {title: "OTU id"}
         }
     
         Plotly.newPlot("bubble", data, layout);
@@ -80,7 +79,7 @@ function init() {
               type: "indicator",
               mode: "gauge",
               value: wfreq,
-              title: { text: "Scrubs per Week", font: { size: 24 } },
+              title: {text: "Scrubs per Week", font: {size: 24}},
               gauge: {
                 axis: { 
                     range: [0, 9], 
