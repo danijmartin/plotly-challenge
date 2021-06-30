@@ -1,6 +1,6 @@
 function init() {
     // Read in data file
-    d3.json("/data/samples.json").then(function(data) {
+    d3.json("samples.json").then(function(data) {
         // Grab values for dropdown and default charts
         var ids = data.names;
         var sample = data.samples[0];
