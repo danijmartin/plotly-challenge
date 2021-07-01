@@ -122,7 +122,7 @@ function optionChanged() {
     console.log(selection);
 
     // Read in data file again
-    d3.json("/data/samples.json").then(function(data) {
+    d3.json("samples.json").then(function(data) {
         // Grab values for updated charts
         var sample = data.samples[`${selection}`];
         var sample_values = sample.sample_values;
