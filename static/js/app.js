@@ -107,7 +107,7 @@ function init() {
           ];
 
         var layout = {
-            title: "Belly Button <br> Washing Frequency", font: {size: 18}
+            title: "Belly Button Washing Frequency", font: {size: 18}
         }
           
           Plotly.newPlot("gauge", data, layout);
